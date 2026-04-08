@@ -13,11 +13,20 @@ datasource db {
 }
 
 model Usuario {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  role      Role     @default(USER)
-  createdAt DateTime @default(now()) @map("created_at")
+  id              Int             @id @default(autoincrement())
+  email           String          @unique
+  name            String?
+  role            Role            @default(USER)
+  createdAt       DateTime        @default(now()) @map("created_at")
+  refresh_tokens  RefreshToken[]
+}
+
+model RefreshToken {
+  id            Int         @id       @default(autoincrement())
+  token         String      @unique
+  expiresAt     DateTime    @map("expires_at")
+  usuario       Usuario     @relation(fields: [usuarioId], references: [id], onDelete: Cascade )
+  usuarioId     Int         @unique   @map("usuario_id")
 }
 
 model Veiculo {
