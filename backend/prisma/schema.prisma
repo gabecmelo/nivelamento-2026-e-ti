@@ -16,6 +16,7 @@ model Usuario {
   id              Int             @id @default(autoincrement())
   email           String          @unique
   name            String?
+  password        String
   role            Role            @default(USER)
   createdAt       DateTime        @default(now()) @map("created_at")
   refresh_tokens  RefreshToken[]
@@ -27,6 +28,8 @@ model RefreshToken {
   expiresAt     DateTime    @map("expires_at")
   usuario       Usuario     @relation(fields: [usuarioId], references: [id], onDelete: Cascade )
   usuarioId     Int         @unique   @map("usuario_id")
+  
+  @@map("refresh_tokens")
 }
 
 model Veiculo {
