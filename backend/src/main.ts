@@ -17,7 +17,17 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('API Nivelamento Veiculos')
     .setVersion('1.0')
-    .addBearerAuth()
+    .addBearerAuth(
+      {
+        description: 'Bearer <JWT>',
+        name: 'Authorization',
+        bearerFormat: 'Bearer',
+        scheme: 'Bearer',
+        type: 'http',
+        in: 'header',
+      },
+      'access-token',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -27,6 +37,5 @@ async function bootstrap() {
 
   await app.listen(PORT);
   console.log(`API rodando em http://localhost:${PORT}`);
-
 }
 bootstrap();
