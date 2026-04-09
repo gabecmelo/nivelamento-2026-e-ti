@@ -7,7 +7,6 @@ import { UpdateVeiculoDto } from "./dto/update-veiculo.dto";
 
 @ApiTags('veiculos')
 @Controller('veiculos')
-@UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class VeiculosController {
   constructor(private readonly veiculosService: VeiculosService) {}
@@ -29,11 +28,15 @@ export class VeiculosController {
   }
 
   @Put(':id')
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard)
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateVeiculoDto) {
     return this.veiculosService.update(id, dto);
   }
 
   @Delete(':id')
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard)
   @HttpCode(204)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.veiculosService.remove(id);

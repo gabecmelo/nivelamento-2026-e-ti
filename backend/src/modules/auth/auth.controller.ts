@@ -58,8 +58,8 @@ export class AuthController {
   }
 
   @Get('me')
+  @ApiBearerAuth('access-token')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
   @ApiOperation({ summary: 'Retorno de dados do usuário logado' })
   @ApiResponse({
     status: 200,

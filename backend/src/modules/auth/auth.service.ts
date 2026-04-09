@@ -6,7 +6,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { hash, compare } from 'bcryptjs';
-import { PrismaService } from '../../prisma/prisma.service'
+import { PrismaService } from '../../prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 
@@ -44,7 +44,7 @@ export class AuthService {
     const user = await this.prisma.client.usuario.findUnique({
       where: { email: dto.email },
     });
-
+    console.log('User: ', user);
     if (!user) {
       throw new UnauthorizedException('Credenciais inválidas');
     }
@@ -96,6 +96,14 @@ export class AuthService {
 
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + 7);
+
+    try {
+      await this.prisma.client.refreshToken.delete({
+        where: { usuarioId: userId },
+      });
+    } catch (e) {
+      console.error(e); // TODO: Verificar se tem como tratar melhor essa remoção de token
+    }
 
     await this.prisma.client.refreshToken.create({
       data: {
