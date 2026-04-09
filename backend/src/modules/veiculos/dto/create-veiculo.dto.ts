@@ -12,6 +12,6 @@ export class CreateVeiculoDto {
   anoFabricacao!: number;
 
   @ApiProperty({ example: 'AUG8L93' })
-  @IsInt()
+  @IsString()
   placa!: string;
 }
