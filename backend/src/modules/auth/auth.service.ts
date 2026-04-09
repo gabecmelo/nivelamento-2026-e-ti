@@ -19,7 +19,7 @@ export class AuthService {
   ) {}
 
   async register(dto: RegisterDto) {
-    const exists = await this.prisma.usuario.findUnique({
+    const exists = await this.prisma.client.usuario.findUnique({
       where: { email: dto.email },
     });
 
@@ -29,7 +29,7 @@ export class AuthService {
 
     const hashed = await hash(dto.password, 10);
 
-    const user = await this.prisma.usuario.create({
+    const user = await this.prisma.client.usuario.create({
       data: {
         name: dto.name,
         email: dto.email,
@@ -41,7 +41,7 @@ export class AuthService {
   }
 
   async login(dto: LoginDto) {
-    const user = await this.prisma.usuario.findUnique({
+    const user = await this.prisma.client.usuario.findUnique({
       where: { email: dto.email },
     });
 
@@ -59,7 +59,7 @@ export class AuthService {
   }
 
   async refresh(token: string) {
-    const stored = await this.prisma.refreshToken.findUnique({
+    const stored = await this.prisma.client.refreshToken.findUnique({
       where: { token },
     });
 
@@ -67,9 +67,9 @@ export class AuthService {
       throw new UnauthorizedException('Refresh token inválido ou expirado');
     }
 
-    await this.prisma.refreshToken.delete({ where: { token } });
+    await this.prisma.client.refreshToken.delete({ where: { token } });
 
-    const user = await this.prisma.usuario.findUniqueOrThrow({
+    const user = await this.prisma.client.usuario.findUniqueOrThrow({
       where: { id: stored.usuarioId },
     });
 
@@ -77,7 +77,7 @@ export class AuthService {
   }
 
   async getMe(userId: number) {
-    const user = await this.prisma.usuario.findUniqueOrThrow({
+    const user = await this.prisma.client.usuario.findUniqueOrThrow({
       where: { id: userId },
     });
 
@@ -97,7 +97,7 @@ export class AuthService {
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + 7);
 
-    await this.prisma.refreshToken.create({
+    await this.prisma.client.refreshToken.create({
       data: {
         token: refreshToken,
         usuarioId: userId,
