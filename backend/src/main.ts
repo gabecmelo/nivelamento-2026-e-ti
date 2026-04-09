@@ -26,7 +26,7 @@ async function bootstrap() {
   app.enableCors({ origin: 'http://localhost:4200' });
 
   await app.listen(3000);
-  console.log(`API rodando em http://localhost:$´PORT}`);
+  console.log(`API rodando em http://localhost:${PORT}`);
 
 }
 bootstrap();
