@@ -1,0 +1,27 @@
+<section>
+  <h1>Criar novo veículo</h1>
+
+  <form (ngSubmit)="createVehicle()">
+    <div>
+      <label for="modelo">Modelo</label>
+      <input id="modelo" name="modelo" [(ngModel)]="modelo" />
+    </div>
+
+    <div>
+      <label for="placa">Placa</label>
+      <input id="placa" name="placa" [(ngModel)]="placa" />
+    </div>
+
+    <div>
+      <label for="anoFabricacao">Ano de fabricação</label>
+      <input id="anoFabricacao" name="anoFabricacao" type="number" [(ngModel)]="anoFabricacao" />
+    </div>
+
+    <div *ngIf="error()" class="error">
+      {{ error() }}
+    </div>
+
+    <button type="submit" [disabled]="saving()">Criar</button>
+    <button type="button" (click)="cancel()">Cancelar</button>
+  </form>
+</section>
