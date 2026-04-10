@@ -23,6 +23,7 @@ export class ApiService {
   }
 
   post<T>(endpoint: string, body: unknown): Observable<T> {
+    console.log(`${API_URL}/${endpoint}`, body)
     return this.http.post<T>(`${API_URL}/${endpoint}`, body, {
       headers: this.getHeaders(),
     });

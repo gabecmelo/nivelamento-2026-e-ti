@@ -14,14 +14,14 @@ export class AuthService {
   login(email: string, password: string) {
     return this.api.post<LoginResponse>('auth/login', { email, password }).pipe(
       tap((res) => {
-        localStorage.setItem('access_token', res.access_token);
+        localStorage.setItem('access_token', `Bearer ${res.access_token}`);
         this.isLoggedIn.set(true);
       }),
     );
   }
 
-  register(name: string, email: string, password: string) {
-    return this.api.post('auth/register', { name, email, password });
+  register(email: string, password: string, name?: string) {
+    return this.api.post('auth/register', { name, email, password }); 
   }
 
   logout() {
